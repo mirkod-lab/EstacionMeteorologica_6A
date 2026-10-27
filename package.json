@@ -1,0 +1,23 @@
+{
+  "name": "monitoreo-ambiental",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Adquisición serial y monitoreo web de mediciones ambientales con MySQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0",
+    "@serialport/parser-readline": "^12.0.0",
+    "serialport": "^12.0.0"
+  },
+  "allowScripts": {
+    "@serialport/bindings-cpp@12.0.1": true
+  }
+}

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f6f5">
+  <title>Monitoreo ambiental</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/vendor/chart.js/chart.umd.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ESTACIÓN METEOROLÓGICA</p>
+        <h1>Monitoreo ambiental</h1>
+        <p class="subtitle">Mediciones actuales e historial de sensores</p>
+      </div>
+      <div class="connection-panel">
+        <span id="connection-dot" class="status-dot"></span>
+        <div>
+          <strong id="connection-label">Consultando conexión…</strong>
+          <span id="connection-detail" class="muted">Esperando estado del puerto</span>
+        </div>
+      </div>
+    </header>
+
+    <div id="simulation-banner" class="simulation-banner hidden">
+      Modo de simulación activo: se generan lecturas de prueba, no son mediciones del dispositivo.
+    </div>
+    <div id="page-error" class="error-banner hidden" role="alert"></div>
+
+    <section class="section-block">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EN VIVO</p>
+          <h2>Última medición</h2>
+        </div>
+        <p id="last-updated" class="muted">Sin mediciones registradas</p>
+      </div>
+      <div class="metric-grid">
+        <article class="metric-card"><span>Temperatura BMP</span><strong id="temperature-bmp">—</strong><small>°C</small></article>
+        <article class="metric-card"><span>Temperatura DHT</span><strong id="temperature-dht">—</strong><small>°C</small></article>
+        <article class="metric-card"><span>Presión atmosférica</span><strong id="pressure">—</strong><small>hPa</small></article>
+        <article class="metric-card"><span>Humedad del aire</span><strong id="air-humidity">—</strong><small>% relativa</small></article>
+        <article class="metric-card"><span>Humedad del suelo</span><strong id="soil-humidity">—</strong><small>% calculado</small></article>
+        <article class="metric-card"><span>Humedad suelo RAW</span><strong id="soil-raw">—</strong><small>lectura analógica</small></article>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-heading">
+        <div><p class="eyebrow">TENDENCIAS</p><h2>Evolución temporal</h2></div>
+      </div>
+      <div class="filter-panel chart-filter">
+        <label>Desde <input id="chart-from" type="datetime-local"></label>
+        <label>Hasta <input id="chart-to" type="datetime-local"></label>
+        <button id="apply-chart-filter" class="button secondary" type="button">Aplicar intervalo</button>
+      </div>
+      <div class="chart-grid">
+        <article class="chart-card"><h3>Temperatura BMP <span>°C</span></h3><div class="chart-wrap"><canvas id="chart-bmp"></canvas></div></article>
+        <article class="chart-card"><h3>Temperatura DHT <span>°C</span></h3><div class="chart-wrap"><canvas id="chart-dht"></canvas></div></article>
+        <article class="chart-card"><h3>Presión atmosférica <span>hPa</span></h3><div class="chart-wrap"><canvas id="chart-pressure"></canvas></div></article>
+        <article class="chart-card"><h3>Humedad relativa del aire <span>%</span></h3><div class="chart-wrap"><canvas id="chart-air"></canvas></div></article>
+        <article class="chart-card"><h3>Humedad del suelo <span>% calculado</span></h3><div class="chart-wrap"><canvas id="chart-soil"></canvas></div></article>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-heading">
+        <div><p class="eyebrow">REGISTROS</p><h2>Historial de mediciones</h2></div>
+        <label class="refresh-control">Actualizar cada
+          <select id="refresh-rate">
+            <option value="2">2 segundos</option>
+            <option value="5" selected>5 segundos</option>
+            <option value="10">10 segundos</option>
+            <option value="30">30 segundos</option>
+          </select>
+        </label>
+      </div>
+      <div class="filter-panel">
+        <label>Desde <input id="history-from" type="datetime-local"></label>
+        <label>Hasta <input id="history-to" type="datetime-local"></label>
+        <button id="apply-history-filter" class="button secondary" type="button">Filtrar</button>
+        <button id="clear-filters" class="button quiet" type="button">Limpiar filtros</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Fecha y hora</th><th>Temp. BMP (°C)</th><th>Presión (hPa)</th>
+            <th>Temp. DHT (°C)</th><th>Humedad aire (%)</th><th>Suelo RAW</th><th>Suelo (%)</th>
+          </tr></thead>
+          <tbody id="history-body"><tr><td colspan="7" class="empty-state">Cargando mediciones…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span id="page-summary" class="muted">Página 1</span>
+        <div><button id="previous-page" class="button quiet" type="button">Anterior</button>
+          <button id="next-page" class="button quiet" type="button">Siguiente</button></div>
+      </div>
+    </section>
+    <footer>La hora mostrada corresponde a la fecha y hora recibidas del dispositivo.</footer>
+  </main>
+</body>
+</html>
